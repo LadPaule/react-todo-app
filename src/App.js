@@ -4,7 +4,9 @@ import WeatherCard from "./components/WeatherCard/Component";
 import "./App.css";
 
 function App() {
-  const [query, setQuery] = useState("Kampala, ug");
+  const location = "Nansana, ug";
+
+  const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({
     temp: null,
     city: null,
@@ -12,40 +14,30 @@ function App() {
     condition: null,
   });
 
-  const getWeather = async q => {
+  const getWeather = async (q) => {
     const apiRes = await fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${q}&units=metric&APPID=751f342121fda1a53d64f6e59dc1d3ec`
     );
     const resJson = await apiRes.json();
-      return resJson;
+    setWeather({
+      temp: resJson.main.temp,
+      city: resJson.name,
+      country: resJson.sys.country,
+      condition: resJson.weather[0].main,
+    });
   };
   //
-  const handleSearch = e => {
-    e.preventDefault()
-    getWeather(query).then(res =>{
-      setWeather({
-        temp: res.main.temp,
-        city: res.name,
-        country: res.sys.country,
-        condition: res.weather[0].main,
-      });
-    });
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getWeather(query);
   };
 
   useEffect(() => {
-    getWeather(query).then(res => {
-      setWeather({
-      temp: res.main.temp,
-      city: res.name,
-      country: res.sys.country,
-      condition: res.weather[0].main,
-    });
-  });
-  },[]);
+    getWeather(location);
+  }, [location]);
 
   return (
     <div className="App">
-    
       <WeatherCard
         temp={weather.temp}
         condition={weather.condition}
