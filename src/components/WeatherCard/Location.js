@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 
-const Location = (props) => {
+const Location = ({ city, country }) => {
     const Container = styled.div`
         text-align: center;
     `
@@ -13,12 +13,12 @@ const Location = (props) => {
     `
     const Country = styled.h3`
     font-family: 'Merriweather', sans-serif;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     `
     return ( 
         <Container className="location">
-            <City>Kampala</City>
-            <Country>UG</Country>
+            <City>{city}</City>
+            <Country>{country}</Country>
         </Container>
         
      );
